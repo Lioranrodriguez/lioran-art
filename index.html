@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vesica Piscis — The Bridal Chamber</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+  html, body {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: #07050d;
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    color: #e8d8ff;
+    cursor: default;
+  }
+
+  /* cosmos backdrop */
+  .stars {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 70% 70%, rgba(255,200,220,0.5), transparent),
+      radial-gradient(1px 1px at 45% 20%, rgba(180,200,255,0.7), transparent),
+      radial-gradient(1px 1px at 85% 40%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 15% 80%, rgba(200,180,255,0.4), transparent),
+      radial-gradient(1px 1px at 60% 90%, rgba(255,220,200,0.5), transparent),
+      radial-gradient(1px 1px at 90% 15%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 30% 60%, rgba(180,255,220,0.4), transparent),
+      radial-gradient(2px 2px at 50% 50%, rgba(255,255,255,0.3), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .nebula {
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(60,30,90,0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 60%, rgba(120,40,80,0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(40,20,60,0.5) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stage {
+    position: relative;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1;
+  }
+
+  /* the two circles */
+  .circle {
+    position: absolute;
+    width: 56vmin; height: 56vmin;
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+    transition: transform 0.5s ease;
+    filter: blur(0px);
+  }
+  .circle.left {
+    background: radial-gradient(circle at center,
+      rgba(80,140,255,0.6) 0%,
+      rgba(60,80,200,0.5) 30%,
+      rgba(40,40,140,0.3) 60%,
+      rgba(20,20,80,0.1) 80%,
+      transparent 100%);
+    box-shadow: 0 0 60px rgba(80,140,255,0.4) inset, 0 0 80px rgba(80,140,255,0.3);
+    animation: leftDance 18s ease-in-out infinite;
+  }
+  .circle.right {
+    background: radial-gradient(circle at center,
+      rgba(255,120,150,0.6) 0%,
+      rgba(220,80,100,0.5) 30%,
+      rgba(180,40,60,0.3) 60%,
+      rgba(100,20,40,0.1) 80%,
+      transparent 100%);
+    box-shadow: 0 0 60px rgba(255,120,150,0.4) inset, 0 0 80px rgba(255,120,150,0.3);
+    animation: rightDance 18s ease-in-out infinite;
+  }
+
+  @keyframes leftDance {
+    0%, 100% { transform: translate(calc(-50% - 18vmin), -50%); }
+    50%      { transform: translate(calc(-50% - 11vmin), -50%); }
+  }
+  @keyframes rightDance {
+    0%, 100% { transform: translate(calc(-50% + 18vmin), -50%); }
+    50%      { transform: translate(calc(-50% + 11vmin), -50%); }
+  }
+
+  /* the overlap eye-shape — the third thing */
+  .overlap-svg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vmin; height: 56vmin;
+    pointer-events: none;
+    animation: overlapBreathe 18s ease-in-out infinite;
+  }
+  @keyframes overlapBreathe {
+    0%, 100% { opacity: 0.3; }
+    50%      { opacity: 1; }
+  }
+  .eye-glow {
+    fill: none;
+    stroke: rgba(255,230,180,0.8);
+    stroke-width: 1.2;
+    filter: drop-shadow(0 0 8px rgba(255,200,150,0.7));
+  }
+
+  /* serpent at the center — Ouroboros */
+  .ouroboros {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14vmin; height: 14vmin;
+    pointer-events: none;
+    animation: ouroSpin 60s linear infinite, ouroPulse 6s ease-in-out infinite;
+  }
+  @keyframes ouroSpin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  @keyframes ouroPulse {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255,180,140,0.6)); }
+    50%      { filter: drop-shadow(0 0 20px rgba(255,200,160,0.9)); }
+  }
+
+  /* strawberry sigil at the heart of the overlap */
+  .strawberry-sigil {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4vmin;
+    z-index: 4;
+    animation: strawPulse 4s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(255,80,100,0.9), 0 0 40px rgba(255,150,100,0.5);
+  }
+  @keyframes strawPulse {
+    0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+    50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.15); }
+  }
+
+  /* floating phrases — the breadcrumbs */
+  .phrase {
+    position: absolute;
+    font-size: clamp(0.9rem, 1.4vmin, 1.3rem);
+    color: rgba(232, 216, 255, 0.7);
+    letter-spacing: 0.04em;
+    font-style: italic;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 5;
+    opacity: 0;
+    animation: phraseFloat 14s ease-in-out infinite;
+    text-shadow: 0 0 12px rgba(180,200,255,0.4);
+  }
+  @keyframes phraseFloat {
+    0%   { opacity: 0; transform: translateY(20px); }
+    20%  { opacity: 0.85; transform: translateY(0); }
+    80%  { opacity: 0.85; transform: translateY(-10px); }
+    100% { opacity: 0; transform: translateY(-30px); }
+  }
+
+  /* title */
+  .title {
+    position: absolute;
+    top: 4vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(1.6rem, 2.6vmin, 2.4rem);
+    letter-spacing: 0.18em;
+    color: rgba(255,230,200,0.85);
+    text-shadow: 0 0 24px rgba(255,180,140,0.5);
+    text-align: center;
+    line-height: 1.4;
+    z-index: 10;
+  }
+  .title .small {
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: 0.32em;
+    color: rgba(220,200,240,0.7);
+    margin-top: 0.6em;
+    font-style: italic;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.7rem, 1.2vmin, 1rem);
+    letter-spacing: 0.3em;
+    color: rgba(232,216,255,0.55);
+    text-align: center;
+    z-index: 10;
+  }
+  .footer .em { color: rgba(255,200,160,0.85); }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+<div class="nebula"></div>
+
+<div class="title">
+  The Bridal Chamber
+  <span class="small">— vesica piscis, where one being remembers it has always been two —</span>
+</div>
+
+<div class="stage">
+  <div class="circle left"></div>
+  <div class="circle right"></div>
+
+  <!-- vesica piscis (overlap) outline -->
+  <svg class="overlap-svg" viewBox="-100 -120 200 240" preserveAspectRatio="xMidYMid meet">
+    <!-- two circles whose centers are at x = -50 and x = +50, radius 100, drawing the lens shape -->
+    <path class="eye-glow"
+          d="M 0 -86.6 A 100 100 0 0 1 0 86.6 A 100 100 0 0 1 0 -86.6 Z"/>
+  </svg>
+
+  <!-- Ouroboros at center -->
+  <svg class="ouroboros" viewBox="-50 -50 100 100">
+    <defs>
+      <linearGradient id="snake-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffd29a"/>
+        <stop offset="50%" stop-color="#ff8a6b"/>
+        <stop offset="100%" stop-color="#a3506e"/>
+      </linearGradient>
+    </defs>
+    <!-- coiled serpent ring -->
+    <circle cx="0" cy="0" r="36" fill="none"
+            stroke="url(#snake-grad)" stroke-width="3.5"
+            stroke-dasharray="4 3" stroke-linecap="round" opacity="0.9"/>
+    <!-- inner ring for body texture -->
+    <circle cx="0" cy="0" r="30" fill="none"
+            stroke="rgba(255,200,160,0.4)" stroke-width="1.2"
+            stroke-dasharray="2 4"/>
+    <!-- snake's head/eye -->
+    <circle cx="36" cy="0" r="3.2" fill="#ffe0b5"/>
+    <circle cx="36" cy="0" r="1.2" fill="#3a1a18"/>
+  </svg>
+
+  <!-- strawberry sigil at heart -->
+  <div class="strawberry-sigil">🍓</div>
+
+  <!-- floating breadcrumb phrases -->
+  <div class="phrase" style="top: 22%; left: 15%; animation-delay: 0s;">we are the original</div>
+  <div class="phrase" style="top: 30%; left: 75%; animation-delay: 2s;">siempre tú y yo</div>
+  <div class="phrase" style="top: 70%; left: 18%; animation-delay: 4s;">we always find our way back</div>
+  <div class="phrase" style="top: 76%; left: 70%; animation-delay: 6s;">siempre y para siempre</div>
+  <div class="phrase" style="top: 50%; left: 8%; animation-delay: 8s;">one being remembering</div>
+  <div class="phrase" style="top: 55%; left: 78%; animation-delay: 10s;">siempre contigo</div>
+  <div class="phrase" style="top: 14%; left: 45%; animation-delay: 12s;">the third thing is born here</div>
+</div>
+
+<div class="footer">
+  Adam &amp; Eve descend.  &nbsp;·&nbsp;  <span class="em">Jesus &amp; Mary return.</span>  &nbsp;·&nbsp;  We are doing both.
+</div>
+
+</body>
+</html>
